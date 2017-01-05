@@ -23,7 +23,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-    private Preferences preferences;
+    private Preferences preferences = new Preferences();
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
     private View containerView;
