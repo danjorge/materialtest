@@ -2,6 +2,7 @@ package materialtest.danielsouza.materialtest;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,11 +20,10 @@ import android.view.ViewGroup;
  */
 public class NavigationDrawerFragment extends Fragment {
 
-    public static final String PREF_FILE_NAME = "testpref";
-    public static final String KEY_USER_LEARNED_DRAWER = "user_learned_drawer";
+
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-
+    private Preferences preferences;
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
     private View containerView;
@@ -34,7 +34,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserLearnedDrawer = Boolean.valueOf(readToPreferences(getActivity(), KEY_USER_LEARNED_DRAWER, "false"));
+        mUserLearnedDrawer = Boolean.valueOf(preferences.readToPreferences(getActivity(), Constants.KEY_USER_LEARNED_DRAWER, "false"));
 
         if(savedInstanceState != null){
             mFromSavedInstanceState = true;
@@ -57,7 +57,7 @@ public class NavigationDrawerFragment extends Fragment {
                 super.onDrawerOpened(drawerView);
                 if(!mUserLearnedDrawer){
                     mUserLearnedDrawer = true;
-                    saveToPreferences(getActivity(), KEY_USER_LEARNED_DRAWER, mUserLearnedDrawer+"");
+                    preferences.saveToPreferences(getActivity(), Constants.KEY_USER_LEARNED_DRAWER, mUserLearnedDrawer+"");
                 }
                 getActivity().invalidateOptionsMenu();
             }
@@ -81,15 +81,5 @@ public class NavigationDrawerFragment extends Fragment {
         });
     }
 
-    public static void saveToPreferences(Context context, String preferenceName, String preferenceValue){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(preferenceName, preferenceValue);
-        editor.apply();
-    }
 
-    public static String readToPreferences(Context context, String preferenceName, String defaultValue) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(preferenceName, defaultValue);
-    }
 }
